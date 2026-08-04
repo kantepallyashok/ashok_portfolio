@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#05070A"/>
+      <stop offset="1" stop-color="#0A0E14"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7DB6FF"/>
+      <stop offset="0.6" stop-color="#2E8DFF"/>
+      <stop offset="1" stop-color="#FF9900"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.8" cy="0.1" r="0.8">
+      <stop offset="0" stop-color="#2E8DFF" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#2E8DFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- grid -->
+  <g stroke="#2E8DFF" stroke-opacity="0.06" stroke-width="1">
+    <path d="M0 90 H1200 M0 180 H1200 M0 270 H1200 M0 360 H1200 M0 450 H1200 M0 540 H1200"/>
+    <path d="M120 0 V630 M240 0 V630 M360 0 V630 M480 0 V630 M600 0 V630 M720 0 V630 M840 0 V630 M960 0 V630 M1080 0 V630"/>
+  </g>
+
+  <!-- badge -->
+  <g transform="translate(90 90)">
+    <rect width="220" height="40" rx="20" fill="#2E8DFF" fill-opacity="0.12" stroke="#2E8DFF" stroke-opacity="0.3"/>
+    <circle cx="24" cy="20" r="5" fill="#2E8DFF"/>
+    <text x="44" y="26" font-family="monospace" font-size="15" fill="#7DB6FF" letter-spacing="2">DEVOPS · CLOUD</text>
+  </g>
+
+  <text x="88" y="290" font-family="'Space Grotesk', sans-serif" font-size="78" font-weight="700" fill="#FFFFFF">Kantepally Venkata Ashok</text>
+  <text x="90" y="370" font-family="'Space Grotesk', sans-serif" font-size="44" font-weight="600" fill="url(#accent)">Senior DevOps Engineer · 7.5+ Years</text>
+  <text x="90" y="430" font-family="Inter, sans-serif" font-size="26" fill="#94A3B8">Reliable cloud platforms, CI/CD pipelines &amp; scalable infrastructure</text>
+  <text x="90" y="466" font-family="Inter, sans-serif" font-size="26" fill="#94A3B8">across AWS &amp; Azure.</text>
+
+  <!-- tool chips -->
+  <g font-family="monospace" font-size="18" fill="#CBD5E1">
+    <g transform="translate(90 520)">
+      <rect width="100" height="40" rx="10" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <text x="20" y="26">AWS</text>
+    </g>
+    <g transform="translate(206 520)">
+      <rect width="110" height="40" rx="10" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <text x="18" y="26">Azure</text>
+    </g>
+    <g transform="translate(332 520)">
+      <rect width="150" height="40" rx="10" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <text x="18" y="26">Terraform</text>
+    </g>
+    <g transform="translate(498 520)">
+      <rect width="160" height="40" rx="10" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.1"/>
+      <text x="18" y="26">Kubernetes</text>
+    </g>
+  </g>
+
+  <!-- decorative ring -->
+  <circle cx="1010" cy="150" r="120" fill="none" stroke="url(#accent)" stroke-width="2" stroke-opacity="0.5"/>
+  <circle cx="1010" cy="150" r="78" fill="none" stroke="#FF9900" stroke-width="1.5" stroke-opacity="0.4"/>
+</svg>
