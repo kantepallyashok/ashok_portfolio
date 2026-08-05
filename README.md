@@ -83,3 +83,6 @@ frontend-app/
 ├── Dockerfile
 ├── nginx.conf
 └── README.md
+VITE_FULL_NAME=Kantepally Venkata Ashok
+VITE_TITLE=Senior DevOps Engineer
+VITE_CURRENT_COMPANY=Coforge
