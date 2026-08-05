@@ -37,6 +37,38 @@ export function renderContact() {
             <p class="section-subtitle">Open to senior DevOps & platform engineering roles. The fastest way to reach me is below.</p>
 
             <div class="mt-8 space-y-3">${cards}</div>
+
+            <div class="glass mt-6 rounded-2xl border border-azure-500/20 p-6 text-center">
+              <div class="mb-4">
+                <i data-lucide="phone" class="mx-auto h-10 w-10 text-azure-400"></i>
+              </div>
+
+              <h3 class="text-xl font-semibold text-white">
+                Contact Me
+              </h3>
+
+              <p class="mt-3 text-2xl font-bold text-azure-300">
+                +91 81214 13523
+              </p>
+
+              <div class="mt-6 flex flex-wrap justify-center gap-3">
+
+                <a
+                  href="tel:+918121413523"
+                  class 121413523"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-ghost"
+                >
+                  💬 WhatsApp
+                </a>
+
+              </div>
+
+              <p class="mt-4 text-sm text-slate-400">
+                Senior DevOps Engineer
+              </p>
+            </div>
           </div>
 
           <div class="lg:col-span-7">
