@@ -13,7 +13,9 @@ export const social = [
   {
     name: 'LinkedIn',
     icon: 'linkedin',
-    url: env.VITE_LINKEDIN || 'linkedin.com/in/kantepally-venkata-ashok-1678bb22b',
+    url:
+      env.VITE_LINKEDIN ||
+      'https://www.linkedin.com/in/kantepally-venkata-ashok-1678bb22b',
     handle: 'linkedin.com/in/kantepally-venkata-ashok-1678bb22b',
     primary: true,
   },
