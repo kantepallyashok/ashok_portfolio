@@ -2,7 +2,7 @@
  * hero.js — headline, animated typed role, tagline, CTAs and animated KPIs.
  */
 import { profile } from '../data/profile.js';
-
+import AshokImg from '../assets/Ashok_DevOps_hero.png';
 export function renderHero() {
   const kpis = profile.kpis
     .map(
@@ -26,6 +26,18 @@ export function renderHero() {
     <!-- ambient grid -->
     <div class="pointer-events-none absolute inset-0 bg-grid opacity-60"></div>
 
+    <!-- fixed person (white bg removed, centered, 70% opacity) -->
+    <div class="pointer-events-none fixed top-1/2 left-1/2 -z-10 -translate-x-1/2 translate-y-[calc(-50%+0.5in)]">
+      <img
+        src="${AshokImg}" alt
+        class="h-[90vh] w-auto opacity-70"
+        style="
+          filter: brightness(.9);
+        "
+      />
+    </div>
+
+
     <!-- floating cloud glyphs -->
     <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       <i data-lucide="cloud" class="absolute left-[8%] top-[22%] h-10 w-10 text-azure-500/20 animate-float"></i>
@@ -34,7 +46,7 @@ export function renderHero() {
       <i data-lucide="git-branch" class="absolute right-[16%] bottom-[24%] h-9 w-9 text-aws-400/20 animate-float"></i>
     </div>
 
-    <div class="container-x relative">
+    <div class="container-x relative z-10">
       <div class="grid items-center gap-12 lg:grid-cols-12">
         <!-- Copy -->
         <div class="lg:col-span-7" data-aos="fade-up">

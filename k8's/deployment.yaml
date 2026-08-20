@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ashok-portfolio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashok-portfolio
+  template:
+    metadata:
+      labels:
+        app: ashok-portfolio
+    spec:
+      containers:
+      - name: ashok-portfolio
+        image: ashokkantepally/ashok_portfolio:3.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
