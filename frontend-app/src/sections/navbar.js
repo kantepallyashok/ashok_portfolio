@@ -30,9 +30,11 @@ export function renderNavbar() {
       <div class="glass flex items-center justify-between gap-4 rounded-2xl px-4 py-3 shadow-glass transition-all duration-300">
         <!-- Brand -->
         <a href="#hero" class="group flex items-center gap-2.5 cursor-pointer" aria-label="Home">
-          <span class="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-azure-500 to-aws-500 text-ink-900 shadow-glow">
-            <i data-lucide="terminal" class="h-5 w-5"></i>
-          </span>
+          <img
+            src="/images/Ashok_icon.PNG"
+            alt="${profile.shortName}"
+            class="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-azure-400/70 shadow-glow transition-transform duration-300 group-hover:scale-110"
+          />
           <span class="font-heading text-lg font-bold tracking-tight text-white">
             ${profile.shortName}<span class="text-azure-400">.</span>
           </span>

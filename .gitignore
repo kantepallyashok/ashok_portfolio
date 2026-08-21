@@ -1,0 +1,4 @@
+.env.render
+node_modules/
+dist/
+__pycache__/
