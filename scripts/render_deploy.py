@@ -230,10 +230,41 @@ def create_service(api_key, owner_id, environment_id):
     return service, deploy_id
 
 
+def _find_deploy_id(obj):
+    if isinstance(obj, dict):
+        dep_id = obj.get("id")
+        if isinstance(dep_id, str) and dep_id.startswith("dep-"):
+            return dep_id
+        for value in obj.values():
+            found = _find_deploy_id(value)
+            if found:
+                return found
+    elif isinstance(obj, list):
+        for value in obj:
+            found = _find_deploy_id(value)
+            if found:
+                return found
+    return None
+
+
 def trigger_deploy(api_key, service_id):
-    result = api("POST", f"/services/{service_id}/deploys", api_key, {})
-    deploy = unwrap(result)
-    return deploy.get("id") if isinstance(deploy, dict) else None
+    try:
+        result = api("POST", f"/services/{service_id}/deploys", api_key, {})
+    except RuntimeError as e:
+        warn(f"Trigger call returned an error (may still be running): {e}")
+        return None
+    dep_id = _find_deploy_id(result)
+    if dep_id:
+        return dep_id
+    log("Deploy ID missing from response - reading latest deploy from service...")
+    time.sleep(3)
+    deploys = [unwrap(d) for d in api("GET", f"/services/{service_id}/deploys?limit=5", api_key)]
+    for d in deploys:
+        if isinstance(d, dict) and d.get("status") in (
+            "created", "build_in_progress", "pre_deploy_in_progress", "queued",
+        ):
+            return d.get("id")
+    return deploys[0].get("id") if deploys else None
 
 
 def wait_for_deploy(api_key, service_id, deploy_id):
@@ -241,8 +272,17 @@ def wait_for_deploy(api_key, service_id, deploy_id):
     started = time.time()
     last_status = None
     while time.time() < deadline:
-        current = unwrap(api("GET", f"/services/{service_id}/deploys/{deploy_id}", api_key))
-        status = current.get("status", "unknown") if isinstance(current, dict) else "unknown"
+        if deploy_id:
+            current = unwrap(api("GET", f"/services/{service_id}/deploys/{deploy_id}", api_key))
+        else:
+            deploys = [unwrap(d) for d in api("GET", f"/services/{service_id}/deploys?limit=1", api_key)]
+            current = deploys[0] if deploys else {}
+            if isinstance(current, dict) and current.get("id"):
+                deploy_id = current["id"]
+                log(f"Monitoring latest deploy: {deploy_id}")
+        if not isinstance(current, dict):
+            current = {}
+        status = current.get("status", "unknown")
         elapsed = fmt_elapsed(time.time() - started)
         if status != last_status:
             print(flush=True)
