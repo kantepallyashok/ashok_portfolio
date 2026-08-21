@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Render.com auto-deploy with blue/green style cleanup.
+Render.com auto-deploy to a single permanent web service.
 
 Flow:
-  1. Creates a NEW web service on Render from this repo (Docker runtime).
-  2. Waits for the build/deploy to finish (live status logs).
-  3. Health-checks the live URL (HTTP 200 + expected page content).
-  4. Asks: delete previous service(s)?  -> yes: removes old ones
-  5. Asks: delete the new service too?  -> yes: removes it, no: keeps it
+  1. Finds project "My First Project" (creates nothing there without need).
+  2. Finds or creates web service "ashok_portfolio-1" inside that project.
+  3. Triggers a deploy of the latest pushed commit and streams status logs.
+  4. Health-checks the live URL (HTTP 200 + expected page content).
+  5. Prints a summary. No deletions, no prompts.
 
 Usage:
   python3 scripts/render_deploy.py            # full flow
-  python3 scripts/render_deploy.py --check    # only list existing services
+  python3 scripts/render_deploy.py --check    # list projects/services only
 
 API key is read from $RENDER_API_KEY or a .env.render file in the repo root.
 """
@@ -28,7 +28,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 CONFIG = {
-    "service_prefix": "portfolio-preview",
+    "service_name": "ashok_portfolio-1",
+    "project_name": "My First Project",
     "repo": "https://github.com/kantepallyashok/ashok_portfolio.git",
     "branch": "main",
     "root_dir": "frontend-app",
@@ -152,7 +153,7 @@ def api(method, path, api_key, body=None):
 
 def unwrap(item):
     if isinstance(item, dict) and "id" not in item:
-        for key in ("service", "deploy", "owner", "envVar", "secretFile"):
+        for key in ("service", "deploy", "owner", "project", "environment"):
             if key in item and isinstance(item[key], dict):
                 return item[key]
     return item
@@ -172,6 +173,19 @@ def get_owner_id(api_key):
     return owner["id"]
 
 
+def find_project(api_key, owner_id):
+    projects = [unwrap(p) for p in api("GET", f"/projects?ownerId={owner_id}", api_key)]
+    for p in projects:
+        if p.get("name", "").lower() == CONFIG["project_name"].lower():
+            return p
+    return None
+
+
+def find_environment(api_key, project_id):
+    envs = [unwrap(e) for e in api("GET", f"/environments?projectId={project_id}", api_key)]
+    return envs[0]["id"] if envs else None
+
+
 def list_services(api_key, owner_id):
     services = []
     cursor = None
@@ -188,10 +202,10 @@ def list_services(api_key, owner_id):
     return services
 
 
-def create_service(api_key, owner_id, name):
+def create_service(api_key, owner_id, environment_id):
     body = {
         "type": "web_service",
-        "name": name,
+        "name": CONFIG["service_name"],
         "ownerId": owner_id,
         "repo": CONFIG["repo"],
         "branch": CONFIG["branch"],
@@ -208,10 +222,18 @@ def create_service(api_key, owner_id, name):
             },
         },
     }
+    if environment_id:
+        body["environmentId"] = environment_id
     result = api("POST", "/services", api_key, body)
     service = unwrap(result.get("service", result))
     deploy_id = result.get("deployId")
     return service, deploy_id
+
+
+def trigger_deploy(api_key, service_id):
+    result = api("POST", f"/services/{service_id}/deploys", api_key, {})
+    deploy = unwrap(result)
+    return deploy.get("id") if isinstance(deploy, dict) else None
 
 
 def wait_for_deploy(api_key, service_id, deploy_id):
@@ -219,9 +241,8 @@ def wait_for_deploy(api_key, service_id, deploy_id):
     started = time.time()
     last_status = None
     while time.time() < deadline:
-        deploys = api("GET", f"/services/{service_id}/deploys?limit=1", api_key)
-        current = unwrap(deploys[0]) if deploys else {}
-        status = current.get("status", "unknown")
+        current = unwrap(api("GET", f"/services/{service_id}/deploys/{deploy_id}", api_key))
+        status = current.get("status", "unknown") if isinstance(current, dict) else "unknown"
         elapsed = fmt_elapsed(time.time() - started)
         if status != last_status:
             print(flush=True)
@@ -235,7 +256,7 @@ def wait_for_deploy(api_key, service_id, deploy_id):
             )
         if status == "live":
             print(flush=True)
-            ok(f"Deploy is LIVE - build finished in {elapsed}")
+            ok(f"Deploy is LIVE - finished in {elapsed}")
             return True
         if status in TERMINAL_DEPLOY_STATES:
             print(flush=True)
@@ -282,54 +303,33 @@ def health_check(url):
     return False
 
 
-def delete_service(api_key, service_id, name):
-    try:
-        api("DELETE", f"/services/{service_id}", api_key)
-        ok(f"Deleted: {name}")
-        return True
-    except RuntimeError as e:
-        warn(f"Could not delete {name}: {e}")
-        return False
-
-
 def ask_yes_no(question, default=False):
     hint = "[Y/n]" if default else "[y/N]"
-    while True:
-        try:
-            answer = input(f"\n  ? {question} {hint} ").strip().lower()
-        except (KeyboardInterrupt, EOFError):
-            print()
-            return default
-        if not answer:
-            return default
-        if answer in ("y", "yes"):
-            return True
-        if answer in ("n", "no"):
-            return False
-        print("  Please answer y or n.")
+    try:
+        answer = input(f"\n  ? {question} {hint} ").strip().lower()
+    except (KeyboardInterrupt, EOFError):
+        print()
+        return default
+    if not answer:
+        return default
+    return answer in ("y", "yes")
 
 
-def summary(new_name, url, dashboard, build_secs, healthy, kept_old, new_kept):
+def summary(service_name, url, dashboard, build_secs, healthy, created):
     print()
     print("============================================================")
     print("  DEPLOY SUMMARY")
     print("============================================================")
-    print(f"  New service    : {new_name}")
+    print(f"  Service        : {service_name}" + ("  (newly created)" if created else ""))
     print(f"  Live URL       : {url or 'n/a'}")
     print(f"  Dashboard      : {dashboard or 'n/a'}")
     print(f"  Build + Deploy : {fmt_elapsed(build_secs)}")
     print(f"  Health check   : {'PASSED' if healthy else 'FAILED'}")
-    print(f"  Old services   : {'deleted' if kept_old and existing_count else ('kept' if existing_count else 'none existed')}")
-    print(f"  New service    : {'kept' if new_kept else 'deleted'}")
     print(f"  TOTAL TIME     : {fmt_elapsed(total_elapsed())}")
     print("============================================================")
 
 
-existing_count = 0
-
-
 def main():
-    global existing_count
     args = set(sys.argv[1:])
     api_key = load_api_key()
 
@@ -340,41 +340,60 @@ def main():
     except RuntimeError as e:
         fail(f"API error: {e}")
 
-    prefix = CONFIG["service_prefix"]
-    existing = [
-        s for s in all_services
-        if s.get("name", "").startswith(prefix) and s.get("suspended") != "suspended"
-    ]
-    existing_count = len(existing)
-
-    log(f"Found {len(all_services)} service(s) in workspace, {existing_count} previous preview(s)")
-    if existing:
-        for s in existing:
-            print(f"    - {s['name']}  ({s.get('serviceDetails', {}).get('url', '')})")
-
-    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    new_name = f"{prefix}-{stamp}"
-
-    step(2, 4, f"Creating new service: {new_name}")
-    log(f"Asking Render to create web service from repo (Docker runtime)...")
-    t_create = time.time()
+    service = next(
+        (s for s in all_services if s.get("name") == CONFIG["service_name"]), None
+    )
+    project = None
+    environment_id = None
     try:
-        service, deploy_id = create_service(api_key, owner_id, new_name)
+        project = find_project(api_key, owner_id)
+        if project:
+            environment_id = find_environment(api_key, project["id"])
     except RuntimeError as e:
-        fail(f"Service creation FAILED: {e}\n   Make sure Render has access to the GitHub repo.")
-    new_id = service["id"]
-    ok(f"Service created: {new_id}")
+        warn(f"Could not look up project/environments: {e}")
+
+    if "--check" in args:
+        log(f"Project '{CONFIG['project_name']}': {'found (' + project['id'] + ')' if project else 'NOT FOUND'}")
+        log(f"Service '{CONFIG['service_name']}': {'found (' + service['id'] + ')' if service else 'NOT FOUND'}")
+        log("All services:")
+        for s in all_services:
+            print(f"    - {s['name']}  ({s.get('serviceDetails', {}).get('url', '')})")
+        return
+
+    created = False
+    deploy_id = None
+    t_deploy = time.time()
+
+    if service:
+        step(2, 4, f"Service '{CONFIG['service_name']}' already exists - deploying latest commit")
+        try:
+            deploy_id = trigger_deploy(api_key, service["id"])
+        except RuntimeError as e:
+            fail(f"Failed to trigger deploy: {e}")
+        ok(f"Deploy triggered: {deploy_id}")
+    else:
+        step(2, 4, f"Creating service '{CONFIG['service_name']}'")
+        if project:
+            log(f"Placing into project '{project.get('name')}' (env {environment_id})")
+        else:
+            warn(f"Project '{CONFIG['project_name']}' not found - creating service at workspace root.")
+        try:
+            service, deploy_id = create_service(api_key, owner_id, environment_id)
+        except RuntimeError as e:
+            fail(f"Service creation FAILED: {e}\n   Make sure Render has access to the GitHub repo.")
+        created = True
+        ok(f"Service created: {service['id']}")
 
     step(3, 4, "Waiting for Render to build & deploy (live logs)")
-    success = wait_for_deploy(api_key, new_id, deploy_id)
-    build_secs = time.time() - t_create
+    success = wait_for_deploy(api_key, service["id"], deploy_id)
+    build_secs = time.time() - t_deploy
 
     url = None
     healthy = False
     interrupted = False
     try:
         if success:
-            url = get_service_url(api_key, new_id)
+            url = get_service_url(api_key, service["id"])
             step(4, 4, f"Health check: {url}")
             log(f"Checking HTTP status + page content ('{CONFIG['content_marker']}')...")
             healthy = health_check(url)
@@ -382,28 +401,14 @@ def main():
             warn("Skipping health check - deploy did not go live.")
     except KeyboardInterrupt:
         interrupted = True
-        warn("Interrupted! New service left running:")
-        print(f"    Dashboard: {service.get('dashboardUrl')}")
+        warn("Interrupted! Deploy continues on Render's side.")
 
-    kept_old = False
-    new_kept = True
     if not interrupted:
-        if existing:
-            if ask_yes_no(f"Delete ALL {existing_count} previous service(s)?"):
-                kept_old = True
-                for s in existing:
-                    delete_service(api_key, s["id"], s["name"])
-            else:
-                log("Previous service(s) KEPT.")
-
-        label = "working correctly" if healthy else "NOT working correctly"
-        if ask_yes_no(f"The NEW service is {label}. Delete it too?", default=False):
-            delete_service(api_key, new_id, new_name)
-            new_kept = False
-        else:
-            log(f"New service KEPT: {url}")
-
-    summary(new_name, url, service.get("dashboardUrl"), build_secs, healthy, kept_old, new_kept)
+        dashboard = service.get("dashboardUrl")
+        if not success:
+            if ask_yes_no("Open dashboard to inspect the failure? (no action, just info)", default=False):
+                pass
+        summary(CONFIG["service_name"], url, dashboard, build_secs, healthy, created)
 
 
 if __name__ == "__main__":
