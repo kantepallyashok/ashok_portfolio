@@ -151,10 +151,10 @@ def api(method, path, api_key, body=None):
 
 
 def unwrap(item):
-    if isinstance(item, dict) and "service" in item and "id" not in item:
-        return item["service"]
-    if isinstance(item, dict) and "deploy" in item and "id" not in item:
-        return item["deploy"]
+    if isinstance(item, dict) and "id" not in item:
+        for key in ("service", "deploy", "owner", "envVar", "secretFile"):
+            if key in item and isinstance(item[key], dict):
+                return item[key]
     return item
 
 
@@ -164,6 +164,7 @@ def get_owner_id(api_key):
         log(f"Using workspace from RENDER_OWNER_ID: {pinned}")
         return pinned
     owners = [unwrap(o) for o in api("GET", "/owners", api_key)]
+    owners = [o for o in owners if isinstance(o, dict) and o.get("id")]
     if not owners:
         fail("No workspaces found on your Render account.")
     owner = owners[0]
