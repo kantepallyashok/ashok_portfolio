@@ -38,7 +38,7 @@ function Hero() {
         <h2>Venkata Kantepally</h2>
         <h3>Senior DevOps Engineer</h3>
         <p>
-          DevOps Engineer with 7+ years of experience in Cloud,
+          DevOps Engineer with <span style={{ color: "orange" }}>7+ years</span> of experience in Cloud,
           CI/CD, Automation, Containerization and Kubernetes.
         </p>
       </div>

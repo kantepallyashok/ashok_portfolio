@@ -64,7 +64,7 @@ export function renderExperience() {
       <div class="mb-12 max-w-2xl" data-aos="fade-up">
         <span class="eyebrow mb-5"><i data-lucide="briefcase" class="h-3.5 w-3.5"></i> Experience</span>
         <h2 class="section-title">A track record of <span class="text-gradient">reliable delivery</span>.</h2>
-        <p class="section-subtitle">7+ years building and operating cloud infrastructure across enterprise teams.</p>
+        <p class="section-subtitle"><span style="color:orange">7+ years</span> building and operating cloud infrastructure across enterprise teams.</p>
       </div>
 
       <div class="relative">

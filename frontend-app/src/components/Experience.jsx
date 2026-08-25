@@ -4,7 +4,7 @@ function Experience() {
       <h2>Professional Expertise</h2>
 
       <ul>
-        <li>7+ Years of DevOps Experience</li>
+        <li><span style={{ color: "orange" }}>7+ Years</span> of DevOps Experience</li>
         <li>Azure & AWS Cloud Administration</li>
         <li>Terraform & CloudFormation Automation</li>
         <li>CI/CD Implementations using Jenkins & Azure DevOps</li>
