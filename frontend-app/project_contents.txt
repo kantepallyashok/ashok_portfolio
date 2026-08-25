@@ -16,7 +16,7 @@ FILE: C:\\Users\\Venkata.Kantepally\\Desktop\\ashok_repo\\ashok_portfolio - Copy
 VITE_FULL_NAME="Kantepally Venkata Ashok"
 VITE_SHORT_NAME="Ashok"
 VITE_TITLE="Senior DevOps Engineer"
-VITE_EXPERIENCE_YEARS="7.5+"
+VITE_EXPERIENCE_YEARS="7+"
 
 # --- Contact --------------------------------------------------------------
 VITE_EMAIL="ashok.kantepally@gmail.com"
@@ -42,7 +42,7 @@ VITE_HERO_TAGLINE="Building Reliable Cloud Platforms, CI/CD Pipelines and Scalab
 
 # --- SEO ------------------------------------------------------------------
 VITE_SEO_TITLE="Kantepally Venkata Ashok — Senior DevOps Engineer"
-VITE_SEO_DESCRIPTION="Senior DevOps Engineer with 7.5+ years designing and operating enterprise cloud infrastructure across AWS and Azure — Terraform, Kubernetes, Docker, CI/CD."
+VITE_SEO_DESCRIPTION="Senior DevOps Engineer with 7+ years designing and operating enterprise cloud infrastructure across AWS and Azure — Terraform, Kubernetes, Docker, CI/CD."
 VITE_FOOTER_TEXT="Designed & built with precision. Infrastructure as craft."
 
 # --- Deployment (optional) ------------------------------------------------
@@ -91,7 +91,7 @@ FILE: C:\\Users\\Venkata.Kantepally\\Desktop\\ashok_repo\\ashok_portfolio - Copy
     <title>Kantepally Venkata Ashok — Senior DevOps Engineer</title>
     <meta
       name="description"
-      content="Senior DevOps Engineer with 7.5+ years designing and operating enterprise cloud infrastructure across AWS and Azure — Terraform, Kubernetes, Docker, CI/CD."
+      content="Senior DevOps Engineer with 7+ years designing and operating enterprise cloud infrastructure across AWS and Azure — Terraform, Kubernetes, Docker, CI/CD."
     />
     <meta name="author" content="Kantepally Venkata Ashok" />
     <link rel="canonical" href="https://your-domain.com" />

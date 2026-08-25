@@ -4,7 +4,7 @@ A modern, production-ready DevOps portfolio website built to showcase cloud, aut
 
 **Author:** Kantepally Venkata Ashok  
 **Role:** Senior DevOps Engineer  
-**Experience:** 7.5+ Years
+**Experience:** 7+ Years
 
 ---
 

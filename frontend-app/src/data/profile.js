@@ -12,7 +12,7 @@ export const profile = {
   fullName: env.VITE_FULL_NAME || 'Kantepally Venkata Ashok',
   shortName: env.VITE_SHORT_NAME || 'Ashok',
   title: env.VITE_TITLE || 'Senior DevOps Engineer',
-  experienceYears: env.VITE_EXPERIENCE_YEARS || '7.5+',
+  experienceYears: env.VITE_EXPERIENCE_YEARS || '7+',
   currentCompany: env.VITE_CURRENT_COMPANY || 'Coforge',
   location: env.VITE_LOCATION || 'India',
 
@@ -35,7 +35,7 @@ export const profile = {
   ],
 
   summary:
-    'DevOps Engineer with 7.5+ years of experience designing, implementing and ' +
+    'DevOps Engineer with 7+ years of experience designing, implementing and ' +
     'maintaining enterprise cloud infrastructure across AWS and Azure. I turn ' +
     'manual, fragile operations into automated, observable and resilient platforms — ' +
     'shipping faster with confidence through Infrastructure as Code, containerization ' +
@@ -51,7 +51,7 @@ export const profile = {
 
   // Animated KPI cards in the hero
   kpis: [
-    { value: '7.5+', label: 'Years Experience', icon: 'badge-check' },
+    { value: '7+', label: 'Years Experience', icon: 'badge-check' },
     { value: 'AWS + Azure', label: 'Multi-Cloud Specialist', icon: 'cloud' },
     { value: 'Terraform', label: 'Infrastructure as Code', icon: 'layers' },
     { value: 'Kubernetes', label: 'Container Orchestration', icon: 'ship' },
@@ -68,7 +68,7 @@ export const profile = {
     title: env.VITE_SEO_TITLE || 'Kantepally Venkata Ashok — Senior DevOps Engineer',
     description:
       env.VITE_SEO_DESCRIPTION ||
-      'Senior DevOps Engineer with 7.5+ years designing and operating enterprise cloud infrastructure across AWS and Azure.',
+      'Senior DevOps Engineer with 7+ years designing and operating enterprise cloud infrastructure across AWS and Azure.',
   },
 
   footerText:
