@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ashok-portfolio
-        image: ashokkantepally/ashok_portfolio:3.0
+        image: ashokkantepally/ashok
         imagePullPolicy: Always
         ports:
         - containerPort: 80
