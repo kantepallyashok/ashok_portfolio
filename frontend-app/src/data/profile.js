@@ -13,13 +13,13 @@ export const profile = {
   shortName: env.VITE_SHORT_NAME || 'Ashok',
   title: env.VITE_TITLE || 'Senior DevOps Engineer',
   experienceYears: env.VITE_EXPERIENCE_YEARS || '7+',
-  currentCompany: env.VITE_CURRENT_COMPANY || 'Coforge',
+  currentCompany: env.VITE_CURRENT_COMPANY || 'Cigniti (Coforge)',
   location: env.VITE_LOCATION || 'India',
 
-  email: env.VITE_EMAIL || 'ashok@example.com',
-  phone: env.VITE_PHONE || '+91 00000 00000',
+  email: env.VITE_EMAIL || 'ashok.kantepally@gmail.com',
+  phone: env.VITE_PHONE || '+91 81214 13523',
   website: env.VITE_WEBSITE || 'https://your-domain.com',
-  resumeUrl: env.VITE_RESUME_URL || '/resume.pdf',
+  resumeUrl: env.VITE_RESUME_URL || '/Ashok_DevOps_Resume7+.pdf',
 
   heroTagline:
     env.VITE_HERO_TAGLINE ||
@@ -29,24 +29,25 @@ export const profile = {
   typedRoles: [
     'Senior DevOps Engineer',
     'Cloud Infrastructure Architect',
-    'AWS &amp; Azure Specialist',
-    'Terraform &amp; Kubernetes Engineer',
+    'AWS & Azure Specialist',
+    'Terraform & Kubernetes Engineer',
     'CI/CD Automation Expert',
   ],
 
   summary:
-    'DevOps Engineer with 7+ years of experience designing, implementing and ' +
-    'maintaining enterprise cloud infrastructure across AWS and Azure. I turn ' +
-    'manual, fragile operations into automated, observable and resilient platforms — ' +
-    'shipping faster with confidence through Infrastructure as Code, containerization ' +
-    'and battle-tested CI/CD pipelines.',
+    'Senior DevOps Engineer with 7+ years of experience in DevOps, cloud ' +
+    'engineering, infrastructure automation and DevSecOps across AWS and Azure. ' +
+    'I design, automate and operate resilient cloud platforms — from reusable ' +
+    'Terraform Infrastructure as Code and end-to-end CI/CD pipelines to ' +
+    'Kubernetes and containerized workloads, secured with enterprise-grade ' +
+    'governance and Key Vault integration.',
 
   // Highlight bullets used in the About section
   highlights: [
-    'Architected multi-cloud landing zones across AWS & Azure with Terraform.',
-    'Built golden CI/CD pipelines on Jenkins & Azure DevOps cutting lead time.',
-    'Operated production Kubernetes & ECS workloads with full observability.',
-    'Championed IaC, GitOps and automation-first culture across teams.',
+    'Designed and standardized reusable Terraform modules powering multi-cloud infrastructure on AWS & Azure.',
+    'Built end-to-end CI/CD pipelines with Azure DevOps, Jenkins & XL Release, cutting release lead time.',
+    'Implemented DevSecOps — Key Vault integration, secret scanning and policy enforcement across pipelines.',
+    'Operated Kubernetes, Azure Container Apps, App Services and AWS ECS with full observability in production.',
   ],
 
   // Animated KPI cards in the hero
