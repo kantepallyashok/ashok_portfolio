@@ -72,7 +72,7 @@ export function renderHero() {
 
           <div class="mt-8 flex flex-wrap items-center gap-3">
             <a href="${profile.resumeUrl}" download class="btn-primary">
-              <i data-lucide="download" class="h-4 w-4"></i> Download Resume
+              <i data-lucide="download" class="h-4 w-4"></i> Download Resume (PDF)
             </a>
             <a href="#projects" class="btn-ghost">
               <i data-lucide="folder-git-2" class="h-4 w-4"></i> View Projects

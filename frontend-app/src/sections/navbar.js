@@ -49,8 +49,8 @@ export function renderNavbar() {
             class="hidden h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-300 transition-colors hover:text-azure-300 sm:flex">
             <i data-lucide="moon" class="h-5 w-5" data-theme-icon></i>
           </button>
-          <a href="${profile.resumeUrl}" download class="btn-primary hidden px-4 py-2.5 text-sm sm:inline-flex">
-            <i data-lucide="download" class="h-4 w-4"></i> Resume
+          <a href="${profile.resumeUrl}" download class="btn-primary px-4 py-2.5 text-sm sm:inline-flex">
+            <i data-lucide="download" class="h-4 w-4"></i> Download Resume (PDF)
           </a>
           <button id="menu-toggle" aria-label="Open menu" aria-expanded="false"
             class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-200 lg:hidden">
@@ -64,7 +64,7 @@ export function renderNavbar() {
         ${mobileLinks}
         <div class="mt-2 flex items-center gap-2 border-t border-white/10 pt-3">
           <a href="${profile.resumeUrl}" download class="btn-primary flex-1 py-2.5 text-sm">
-            <i data-lucide="download" class="h-4 w-4"></i> Resume
+            <i data-lucide="download" class="h-4 w-4"></i> Download Resume (PDF)
           </a>
           <button id="theme-toggle-mobile" aria-label="Toggle color theme"
             class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-300">

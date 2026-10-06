@@ -104,7 +104,7 @@ export function renderContact() {
                   <i data-lucide="send" class="h-4 w-4"></i> Send message
                 </button>
                 <a href="${profile.resumeUrl}" download class="btn-ghost">
-                  <i data-lucide="download" class="h-4 w-4"></i> Download résumé
+                  <i data-lucide="download" class="h-4 w-4"></i> Download Resume (PDF)
                 </a>
                 <p id="cf-status" class="text-sm text-slate-400" role="status" aria-live="polite"></p>
               </div>
