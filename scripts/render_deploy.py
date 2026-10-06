@@ -4,7 +4,7 @@ Render.com auto-deploy to a single permanent web service.
 
 Flow:
   1. Finds project "My First Project" (creates nothing there without need).
-  2. Finds or creates web service "ashok_portfolio-1" inside that project.
+  2. Finds or creates web service "ashok_portfolio" inside that project.
   3. Triggers a deploy of the latest pushed commit and streams status logs.
   4. Health-checks the live URL (HTTP 200 + expected page content).
   5. Prints a summary. No deletions, no prompts.
@@ -28,7 +28,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 CONFIG = {
-    "service_name": "ashok_portfolio-1",
+    "service_name": "ashok_portfolio",
     "project_name": "My First Project",
     "repo": "https://github.com/kantepallyashok/ashok_portfolio.git",
     "branch": "main",
